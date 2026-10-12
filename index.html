@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<!-- lang="pt-BR" ajuda leitores de tela e navegadores a entenderem o idioma da página -->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <!-- Faz a página se adaptar à largura do celular (essencial para responsividade) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portfólio pessoal de Luana Gonçalves Domingues Azevedo">
+  <title>Portfólio | Luana Gonçalves Domingues Azevedo</title>
+
+  <!-- Conecta o arquivo de estilos -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ========== CABEÇALHO E MENU ========== -->
+  <header class="cabecalho">
+    <nav class="menu" aria-label="Menu principal">
+
+      <!-- Logo: também é uma âncora, leva para a seção inicial -->
+      <a href="#sobre" class="logo">Luana Gonçalves Domingues Azevedo</a>
+
+      <!-- Botão de alternar tema (o JS vai trocar o tema claro/escuro ao clicar) -->
+      <button id="btn-tema" class="btn-tema" type="button" aria-label="Alternar tema claro/escuro">
+        🌙
+      </button>
+
+      <!-- Botão hambúrguer: só aparece no celular (controlado pelo CSS).
+           aria-expanded informa aos leitores de tela se o menu está aberto -->
+      <button id="btn-menu" class="btn-menu" type="button"
+              aria-label="Abrir menu" aria-expanded="false" aria-controls="lista-menu">
+        ☰
+      </button>
+
+      <!-- Lista de links. Cada href="#id" aponta para o id de uma seção abaixo.
+           É isso que forma a navegação por âncoras. -->
+      <ul id="lista-menu" class="lista-menu">
+        <li><a href="#sobre">Sobre mim</a></li>
+        <li><a href="#formacao">Formação</a></li>
+        <li><a href="#portfolio">Portfólio</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ========== CONTEÚDO PRINCIPAL ========== -->
+  <main>
+
+    <!-- SEÇÃO 1: SOBRE MIM
+         A classe "secao" será usada pelo JS para mostrar/esconder as seções -->
+    <section id="sobre" class="secao">
+      <h1>Olá, eu sou Luana Gonçalves Domingues Azevedo</h1>
+      <!-- Subtítulo curto, para não repetir o texto da Apresentação -->
+      <p class="subtitulo">Futura Engenheira de Software | Em formação pela UNINTER</p>
+
+      <div class="sobre-conteudo">
+        <!-- A foto deve estar em img/foto.jpg (o texto "alt" descreve a imagem) -->
+        <img src="img/foto.jpg" alt="Foto de Luana Gonçalves Domingues Azevedo" class="foto-perfil">
+
+        <div>
+          <h2>Apresentação</h2>
+          <p>Estudante de Engenharia de Software na UNINTER desde 2026, com previsão de conclusão de curso até 2030. Confira meus projetos publicados no GitHub!</p>
+
+          <h2>Informações pessoais</h2>
+          <ul>
+            <li><strong>Nome:</strong> Luana Gonçalves Domingues Azevedo</li>
+            <li><strong>Cidade:</strong> Betim, MG</li>
+            <li><strong>Área de interesse:</strong> Desenvolvimento de Software e Banco de Dados, com interesse em explorar diferentes áreas da tecnologia e ampliar meus conhecimentos. </li>
+          </ul>
+
+          <!-- Hobbies: requisito do trabalho. Troque pelos seus de verdade -->
+          <h2>Hobbies</h2>
+          <ul>
+            <li>Jogar jogos online</li>
+            <li>Assistir doramas coreanos</li>
+            <li>Consumir literaturas diversas</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEÇÃO 2: FORMAÇÃO -->
+    <section id="formacao" class="secao">
+      <h2>Formação</h2>
+
+      <!-- Cada bloco usa <article>, tag semântica para conteúdo independente -->
+      <article class="cartao">
+        <h3>Formação educacional</h3>
+        <p><strong>Engenharia de Software / UNINTER</strong></p>
+        <p>Período: 2026 - 2030</p>
+      </article>
+
+      <article class="cartao">
+        <h3>Cursos</h3>
+        <ul>
+          <li>Python: FIAP (80 horas)</li>
+          <li>Excel - do básico ao avançado: Santander Open Academy (16 horas)</li>
+        </ul>
+      </article>
+
+      <article class="cartao">
+        <h3>Idiomas</h3>
+        <ul>
+          <li>Português: nativo</li>
+          <li>Inglês: nível intermediário</li>
+        </ul>
+      </article>
+    </section>
+
+    <!-- SEÇÃO 3: PORTFÓLIO -->
+    <section id="portfolio" class="secao">
+      <h2>Portfólio</h2>
+      <p>Alguns trabalhos que realizei até aqui:</p>
+
+      <!-- Todo o conteúdo de cada projeto fica DENTRO do seu <article>,
+           para que o CSS em grade trate cada projeto como um cartão único -->
+      <div class="grade-projetos">
+
+        <article class="cartao">
+          <img src="img/projeto1.jpg" alt="Captura de tela do projeto Lógica de Programação e Algoritmos">
+          <h3>Lógica de Programação e Algoritmos</h3>
+          <p>Este repositório reúne quatro exercícios desenvolvidos em Python, abordando conceitos fundamentais de programação, como:</p>
+
+          <ul>
+            <li>Estruturas condicionais (<code>if</code>, <code>elif</code>, <code>else</code>)</li>
+            <li>Estruturas de repetição (<code>while</code>)</li>
+            <li>Funções</li>
+            <li>Tratamento de exceções (<code>try/except</code>)</li>
+            <li>Listas e dicionários</li>
+            <li>Validação de dados</li>
+            <li>Entrada e saída de informações pelo usuário</li>
+          </ul>
+
+          <!-- target="_blank" abre em nova aba; rel="noopener noreferrer" é uma boa prática de segurança -->
+          <a href="https://github.com/luanadev-94/logica-e-algoritmos.uninter" target="_blank" rel="noopener noreferrer">Ver projeto</a>
+        </article>
+
+        <article class="cartao">
+          <img src="img/projeto2.jpg" alt="Captura de tela do projeto Banco de Dados Relacional">
+          <h3>Banco de Dados Relacional</h3>
+          <p>Projeto acadêmico de Banco de Dados desenvolvido para o curso de Engenharia de Software, cobrindo modelagem conceitual (MER) e implementação de um banco relacional em MySQL para o controle de ordens de serviço de uma empresa.</p>
+          <a href="https://github.com/luanadev-94/banco-de-dados-relacional.uninter" target="_blank" rel="noopener noreferrer">Ver projeto</a>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- SEÇÃO 4: CONTATO -->
+    <section id="contato" class="secao">
+      <h2>Contato</h2>
+
+      <!-- novalidate desliga a validação padrão do navegador,
+           pois vamos validar com JavaScript (requisito do projeto) -->
+      <form id="form-contato" novalidate>
+
+        <div class="campo">
+          <label for="nome">Nome</label>
+          <input type="text" id="nome" name="nome" placeholder="Seu nome completo">
+          <!-- O JS vai preencher este <span> com a mensagem de erro -->
+          <span class="erro" id="erro-nome"></span>
+        </div>
+
+        <div class="campo">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" name="email" placeholder="voce@exemplo.com">
+          <span class="erro" id="erro-email"></span>
+        </div>
+
+        <div class="campo">
+          <label for="mensagem">Mensagem</label>
+          <textarea id="mensagem" name="mensagem" rows="5" placeholder="Escreva sua mensagem"></textarea>
+          <span class="erro" id="erro-mensagem"></span>
+        </div>
+
+        <button type="submit" class="btn-enviar">Enviar</button>
+
+        <!-- Aqui o JS mostra a confirmação do envio simulado.
+             aria-live faz leitores de tela anunciarem a mensagem -->
+        <p id="status-envio" class="status-envio" aria-live="polite"></p>
+      </form>
+    </section>
+
+  </main>
+
+  <!-- ========== RODAPÉ ========== -->
+  <footer class="rodape">
+    <p>&copy; 2026 Luana Gonçalves Domingues Azevedo. Todos os direitos reservados.</p>
+  </footer>
+
+  <!-- O script fica no final do body para o HTML carregar antes do JS rodar -->
+  <script src="script.js"></script>
+</body>
+</html>

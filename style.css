@@ -1,0 +1,479 @@
+/* ==========================================================
+   1. VARIÁVEIS DE COR (TEMAS)
+   Variáveis CSS (--nome) guardam valores reutilizáveis.
+   Para trocar de tema, basta redefinir esses valores.
+   ========================================================== */
+
+/* Tema claro (padrão) */
+:root {
+  --cor-fundo: #faf7ff;
+  --cor-superficie: #ffffff;      /* cartões, cabeçalho, campos */
+  --cor-texto: #2d2540;
+  --cor-texto-suave: #6b6280;
+  --cor-primaria: #7e57c2;        /* lilás principal */
+  --cor-primaria-hover: #6a45b0;
+  --cor-texto-botao: #ffffff;
+  --cor-destaque: #ede4fa;        /* fundo suave de itens ativos */
+  --cor-borda: #e4d9f5;
+  --cor-erro: #c62828;
+  --cor-sucesso: #2e7d32;
+  --sombra: 0 4px 16px rgba(126, 87, 194, 0.12);
+}
+
+/* Tema escuro: o JavaScript vai colocar data-tema="escuro" na tag <html>.
+   Os valores abaixo sobrescrevem os do tema claro. */
+:root[data-tema="escuro"] {
+  --cor-fundo: #17131f;
+  --cor-superficie: #211b2e;
+  --cor-texto: #efe9fa;
+  --cor-texto-suave: #b3a8c9;
+  --cor-primaria: #b794f6;
+  --cor-primaria-hover: #cdb4fa;
+  --cor-texto-botao: #17131f;
+  --cor-destaque: #2f2543;
+  --cor-borda: #3a3052;
+  --cor-erro: #ff8a80;
+  --cor-sucesso: #81c784;
+  --sombra: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* ==========================================================
+   2. RESET E ESTILOS BASE
+   ========================================================== */
+
+/* box-sizing: border-box faz padding e borda entrarem no cálculo da largura,
+   o que evita muitos problemas de layout */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  line-height: 1.6;
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  /* Suaviza a troca entre tema claro e escuro */
+  transition: background-color 0.3s, color 0.3s;
+}
+
+h1, h2, h3 {
+  line-height: 1.25;
+  color: var(--cor-primaria);
+}
+
+a {
+  color: var(--cor-primaria);
+}
+
+a:hover {
+  color: var(--cor-primaria-hover);
+}
+
+/* Contorno visível ao navegar pelo teclado (acessibilidade) */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--cor-primaria);
+  outline-offset: 2px;
+}
+
+img {
+  max-width: 100%;   /* imagens nunca ultrapassam o espaço disponível */
+  display: block;
+}
+
+/* ==========================================================
+   3. CABEÇALHO E MENU (versão para celular primeiro)
+   Estratégia "mobile first": escrevemos o estilo do celular
+   e depois, na seção 9, ajustamos para telas maiores.
+   ========================================================== */
+
+.cabecalho {
+  position: sticky;   /* o cabeçalho acompanha a rolagem */
+  top: 0;
+  z-index: 100;
+  background-color: var(--cor-superficie);
+  border-bottom: 1px solid var(--cor-borda);
+  box-shadow: var(--sombra);
+  transition: background-color 0.3s;
+}
+
+.menu {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-wrap: wrap;            /* permite a lista de links descer para a linha de baixo */
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo {
+  flex: 1;                    /* ocupa o espaço que sobrar, empurrando os botões para a direita */
+  min-width: 0;               /* necessário para o texto poder ser cortado */
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-decoration: none;
+  /* Nome longo: corta com "..." em vez de quebrar o layout no celular */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Botões de tema e hambúrguer */
+.btn-tema,
+.btn-menu {
+  background: var(--cor-destaque);
+  color: var(--cor-primaria);
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-tema:hover,
+.btn-menu:hover {
+  background-color: var(--cor-borda);
+}
+
+/* Lista de links: no celular fica ESCONDIDA e ocupa a linha inteira.
+   Quando o JS adiciona a classe "aberto", ela aparece. */
+.lista-menu {
+  display: none;
+  flex-basis: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 0 0;
+}
+
+.lista-menu.aberto {
+  display: block;
+}
+
+.lista-menu a {
+  display: block;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--cor-texto);
+  font-weight: 500;
+}
+
+.lista-menu a:hover {
+  background-color: var(--cor-destaque);
+}
+
+/* O JS adiciona a classe "ativo" no link da seção atual */
+.lista-menu a.ativo {
+  background-color: var(--cor-destaque);
+  color: var(--cor-primaria);
+  font-weight: 700;
+}
+
+/* ==========================================================
+   4. SEÇÕES (mostrar/esconder)
+   A classe "js" é adicionada na tag <html> pelo JavaScript.
+   Assim, se o JS falhar, todas as seções continuam visíveis
+   (a página não fica "vazia").
+   ========================================================== */
+
+main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1rem 3rem;
+  min-height: 70vh;
+}
+
+/* Com JS ativo: esconde todas as seções... */
+.js .secao {
+  display: none;
+}
+
+/* ...e mostra só a que tiver a classe "ativa" */
+.js .secao.ativa {
+  display: block;
+  animation: aparecer 0.4s ease;
+}
+
+/* Animação simples de entrada (sobe levemente e surge) */
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Sem JS, as seções ficam empilhadas: damos um espaço entre elas */
+.secao {
+  margin-bottom: 3rem;
+}
+
+/* ==========================================================
+   5. SEÇÃO "SOBRE MIM"
+   ========================================================== */
+
+.subtitulo {
+  font-size: 1.15rem;
+  color: var(--cor-texto-suave);
+  margin-top: 0;
+}
+
+.sobre-conteudo {
+  display: flex;
+  flex-direction: column;     /* celular: foto em cima, texto embaixo */
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.foto-perfil {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;         /* deixa a foto redonda */
+  object-fit: cover;          /* corta a imagem sem deformar */
+  border: 4px solid var(--cor-primaria);
+  box-shadow: var(--sombra);
+  flex-shrink: 0;
+}
+
+.sobre-conteudo h2 {
+  font-size: 1.25rem;
+  margin-bottom: 0.25rem;
+}
+
+/* ==========================================================
+   6. CARTÕES (Formação e Portfólio)
+   ========================================================== */
+
+.cartao {
+  background-color: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--sombra);
+  transition: transform 0.2s, background-color 0.3s;
+}
+
+.cartao:hover {
+  transform: translateY(-3px);  /* efeito de "levantar" ao passar o mouse */
+}
+
+.cartao h3 {
+  margin-top: 0;
+}
+
+.cartao ul {
+  padding-left: 1.25rem;
+}
+
+/* Grade dos projetos: 1 coluna no celular (ajustada na seção 9) */
+.grade-projetos {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.grade-projetos .cartao {
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.grade-projetos img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  background-color: var(--cor-destaque);  /* cor de fundo enquanto não há imagem */
+}
+
+/* Botão "Ver projeto": o link vira um botão e vai para o fim do cartão */
+.grade-projetos .cartao a {
+  margin-top: auto;
+  align-self: flex-start;
+  padding: 0.5rem 1rem;
+  background-color: var(--cor-primaria);
+  color: var(--cor-texto-botao);
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.grade-projetos .cartao a:hover {
+  background-color: var(--cor-primaria-hover);
+  color: var(--cor-texto-botao);
+}
+
+/* Trechos de código inline, como <code>if</code> */
+code {
+  background-color: var(--cor-destaque);
+  color: var(--cor-primaria);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+/* ==========================================================
+   7. FORMULÁRIO DE CONTATO
+   ========================================================== */
+
+#form-contato {
+  max-width: 600px;
+}
+
+.campo {
+  margin-bottom: 1.25rem;
+}
+
+.campo label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 600;
+}
+
+.campo input,
+.campo textarea {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  font: inherit;               /* usa a mesma fonte do resto da página */
+  color: var(--cor-texto);
+  background-color: var(--cor-superficie);
+  border: 2px solid var(--cor-borda);
+  border-radius: 8px;
+  transition: border-color 0.2s;
+}
+
+.campo textarea {
+  resize: vertical;            /* o usuário só pode aumentar a altura */
+}
+
+.campo input:focus,
+.campo textarea:focus {
+  border-color: var(--cor-primaria);
+}
+
+/* O JS adiciona a classe "invalido" no campo com erro */
+.campo input.invalido,
+.campo textarea.invalido {
+  border-color: var(--cor-erro);
+}
+
+/* Mensagem de erro abaixo do campo (preenchida pelo JS) */
+.erro {
+  display: block;
+  min-height: 1.2em;           /* reserva espaço para o layout não "pular" */
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
+  color: var(--cor-erro);
+}
+
+.btn-enviar {
+  padding: 0.75rem 2rem;
+  font: inherit;
+  font-weight: 700;
+  color: var(--cor-texto-botao);
+  background-color: var(--cor-primaria);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-enviar:hover {
+  background-color: var(--cor-primaria-hover);
+}
+
+/* Mensagem de confirmação do envio simulado */
+.status-envio {
+  margin-top: 1rem;
+  font-weight: 600;
+  color: var(--cor-sucesso);
+}
+
+/* ==========================================================
+   8. RODAPÉ
+   ========================================================== */
+
+.rodape {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  color: var(--cor-texto-suave);
+  border-top: 1px solid var(--cor-borda);
+  background-color: var(--cor-superficie);
+  transition: background-color 0.3s;
+}
+
+.rodape p {
+  margin: 0;
+}
+
+/* ==========================================================
+   9. RESPONSIVIDADE (media queries)
+   Os estilos abaixo só valem em telas com 768px ou mais
+   (tablets e computadores).
+   ========================================================== */
+
+@media (min-width: 768px) {
+
+  /* Esconde o botão hambúrguer: não é mais necessário */
+  .btn-menu {
+    display: none;
+  }
+
+  /* Reorganiza o cabeçalho: logo à esquerda, links no meio, tema à direita */
+  .logo {
+    flex: 0 1 auto;
+    max-width: 320px;
+  }
+
+  .lista-menu {
+    display: flex;             /* sempre visível, em linha */
+    flex-basis: auto;
+    gap: 0.25rem;
+    padding: 0;
+    margin-left: auto;         /* empurra os links para a direita */
+    order: 2;
+  }
+
+  .btn-tema {
+    order: 3;                  /* o botão de tema fica depois dos links */
+  }
+
+  /* Sobre mim: foto ao lado do texto */
+  .sobre-conteudo {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .foto-perfil {
+    width: 240px;
+    height: 240px;
+  }
+
+  /* Projetos em 2 colunas */
+  .grade-projetos {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Respeita quem configurou o sistema para reduzir animações */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
